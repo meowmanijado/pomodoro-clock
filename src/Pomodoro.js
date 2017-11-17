@@ -5,31 +5,47 @@ export class Pomodoro extends React.Component {
 		super(props);
 		this.state = {
 			session: 25,
-			startSession: true
+			timer: 25 * 60,
+			startSession: true,
+			pauseSession: false
 		};
 
 		this.startPomodoro = this.startPomodoro.bind(this);
 	}
 
-	startPomodoro(e) {
+	startPomodoro() {
 
 		if (this.state.startSession) {
 			const counter = setInterval(() => {
-				this.setState({session: this.state.session - 1})
+				this.setState({timer: this.state.timer - 1})
 
-				if (this.state.session <= 0) {
+				if (this.state.timer <= 0) {
 					clearInterval(counter);
 					return;
 				}
 			}, 1000);
 		}
+
+		if (this.state.pauseSession) {
+			alert('paused');
+		}
+	}
+
+	displayTime() {
+
+		const mins = parseInt(this.state.timer / 60, 10),
+			  secs = parseInt(this.state.timer % 60, 10);
+
+		return `${mins} : ${secs}`;
 	}
 
 	render() {
 		return (
 			<div>
-				<p>{this.state.session}</p>
+				<p>{this.state.timer}</p>
+				<p>Current time: {this.displayTime()} </p>
 				<button onClick={this.startPomodoro}>Start</button>
+				<button onClick={this.pausePomodoro}>Pause</button>
  			</div>
 		);
 	};
