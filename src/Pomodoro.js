@@ -14,16 +14,14 @@ export class Pomodoro extends React.Component {
 	startPomodoro(e) {
 
 		if (this.state.startSession) {
-			
-			const timer = () => {
+			const counter = setInterval(() => {
 				this.setState({session: this.state.session - 1})
 
 				if (this.state.session <= 0) {
 					clearInterval(counter);
 					return;
 				}
-			}
-			const counter = setInterval(timer, 1000);
+			}, 1000);
 		}
 	}
 
