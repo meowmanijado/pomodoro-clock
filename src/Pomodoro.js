@@ -4,49 +4,55 @@ export class Pomodoro extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			session: 25,
-			timer: 25 * 60,
-			startSession: true,
-			pauseSession: false
+			seconds: 25 * 60
 		};
 
-		this.startPomodoro = this.startPomodoro.bind(this);
+		this.startTimer = this.startTimer.bind(this);
 	}
 
-	tick() {
-
-		this.setState({timer: this.state.timer - 1});
-
-		if (this.state.timer <= 0) clearInterval(this.counter);
-
+	displayTimer(seconds) {
+		const minutes = Math.floor(this.state.seconds / 60);
+		const remainderSeconds = this.state.seconds % 60;
+		const display = `${minutes}: ${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
+		document.title = display;
+		return display;
 	}
 
-	startPomodoro() {
 
-		if (this.state.startSession) this.counter = setInterval(() => this.tick(), 1000);
+	timer(seconds) {
+		
+		clearInterval(countdown);
 
-		if (this.state.pauseSession) {
-			alert('paused');
-		}
+		let countdown;
+		const now = Date.now();
+		const then = now + this.state.seconds * 1000;
+		
+
+		this.displayTimer(seconds);
+
+		countdown = setInterval(() => {
+			const secondsLeft = this.setState({seconds: Math.round((then - Date.now()) / 1000)});
+			
+			if (secondsLeft < 0) {
+				clearInterval(countdown);
+				return;
+			}
+			this.displayTimer(secondsLeft);
+		}, 1000);
+
+		
 	}
 
-	
-
-	displayTime() {
-
-		const mins = parseInt(this.state.timer / 60, 10),
-			  secs = parseInt(this.state.timer % 60, 10);
-
-		return `${mins} : ${secs}`;
+	startTimer() {
+		const seconds = parseInt(this.displayTimer, 10);
+		this.timer(seconds);
 	}
 
 	render() {
 		return (
-			<div>
-				<p>{this.state.timer}</p>
-				<p>Current time: {this.displayTime()} </p>
-				<button onClick={this.startPomodoro}>Start</button>
-				<button onClick={this.pausePomodoro}>Pause</button>
+			<div className="display">
+				<h1>{this.displayTimer(this.state.seconds)}</h1>
+				<button onClick={this.startTimer}>Start</button>
  			</div>
 		);
 	};
