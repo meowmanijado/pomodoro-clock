@@ -13,23 +13,24 @@ export class Pomodoro extends React.Component {
 		this.startPomodoro = this.startPomodoro.bind(this);
 	}
 
+	tick() {
+
+		this.setState({timer: this.state.timer - 1});
+
+		if (this.state.timer <= 0) clearInterval(this.counter);
+
+	}
+
 	startPomodoro() {
 
-		if (this.state.startSession) {
-			const counter = setInterval(() => {
-				this.setState({timer: this.state.timer - 1})
-
-				if (this.state.timer <= 0) {
-					clearInterval(counter);
-					return;
-				}
-			}, 1000);
-		}
+		if (this.state.startSession) this.counter = setInterval(() => this.tick(), 1000);
 
 		if (this.state.pauseSession) {
 			alert('paused');
 		}
 	}
+
+	
 
 	displayTime() {
 
