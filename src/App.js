@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Pomodoro from './Pomodoro';
+import ToDo from './ToDo';
 
 const initialState = {
   seconds: 1500, 
@@ -14,10 +15,12 @@ const initialState = {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = initialState;
+    this.addTodo = this.addTodo.bind(this);
+    this.state = {initialState, todos: {}};
 
     this.startTimer = this.startTimer.bind(this);
     this.pauseTimer = this.pauseTimer.bind(this);
+    
   }
 
   timer(seconds) {
@@ -52,6 +55,13 @@ class App extends Component {
     if (this.state.status2 === 'Done') this.reset();
   }
 
+  addTodo(todo) {
+    const todos = {...this.state.todos};
+    const timestamp = Date.now();
+    todos[`todo-${timestamp}`] = todo;
+    this.setState({todos});
+  }
+
   render() {
     return (
       <div className="App">
@@ -60,6 +70,7 @@ class App extends Component {
         <button onClick={this.pauseTimer} disabled={this.state.status1==='Start'}>
                {this.state.status2}
         </button>
+        <ToDo />
       </div>
     );
   }
