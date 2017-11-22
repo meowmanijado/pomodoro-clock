@@ -3,7 +3,7 @@ import './App.css';
 import Pomodoro from './Pomodoro';
 import ToDo from './ToDo';
 
-const initialState = {
+let pomodoro = {
   seconds: 1500, 
   countdown: 0, 
   pause: false, 
@@ -16,7 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.addTodo = this.addTodo.bind(this);
-    this.state = {initialState, todos: {}};
+    this.state = {pomodoro, todos: {}};
 
     this.startTimer = this.startTimer.bind(this);
     this.pauseTimer = this.pauseTimer.bind(this);
@@ -27,32 +27,59 @@ class App extends Component {
     const now = Date.now();
     const then = now + seconds * 1000;
 
-    clearInterval(this.state.countdown);
-    this.setState({pause: false, status1: 'Resume', status2: 'Pause'});
+    clearInterval(this.state.pomodoro.countdown);
 
-    this.setState({countdown: setInterval(() => {
-        const secondsLeft = this.setState({seconds: Math.round((then - Date.now()) / 1000)});
-        
-        if (secondsLeft < 0) {
-          clearInterval(this.state.countdown);
-          return;
-        }
-      }, 1000)});
+    this.setState({
+      pomodoro: Object.assign({}, this.state.pomodoro, {
+        status1: 'Pause',
+        status2: 'Stop',
+        countdown: setInterval(() => {
+            const secondsLeft = this.setState({pomodoro: Object.assign({}, this.state.pomodoro, {
+              seconds: Math.round((then - Date.now()) / 1000),
+            })});
+
+            if (secondsLeft < 0) {
+              clearInterval(this.state.pomodoro.countdown);
+              return;
+            }
+
+        },1000)
+      })
+    });
   }
 
   startTimer() {
-    this.timer(this.state.seconds);
+
+    const pomodoro = {...this.state.pomodoro}
+
+    
+
+    if(pomodoro.status1 === 'Pause') {
+      clearTimeout(this.state.pomodoro.countdown);
+      this.setState({pomodoro: Object.assign({}, this.state.pomodoro, {
+        pause: true,
+        status1: 'Resume',
+        status2: 'Done'
+      })});
+    } else {
+      this.timer(1500);
+    }
+    
   }
 
   reset() {
-    this.setState(initialState);
+    this.setState({pomodoro});
   }
 
   pauseTimer() {
-    clearTimeout(this.state.countdown);
-    this.setState({pause: true, status2: 'Done', timestamp: Date.now()});
+    clearTimeout(this.state.pomodoro.countdown);
 
-    if (this.state.status2 === 'Done') this.reset();
+    this.setState({pomodoro: Object.assign({}, this.state.pomodoro, {
+      pause: true, status2: 'Done', timestamp: Date.now()
+    })});
+
+    if (this.state.pomodoro.status2 === 'Stop' || 'Dne') this.reset();
+
   }
 
   addTodo(todo) {
@@ -63,13 +90,12 @@ class App extends Component {
   }
 
   render() {
+    const seconds = this.state.pomodoro.seconds;
+    const status1 = this.state.pomodoro.status1;
+    const status2 = this.state.pomodoro.status2;
     return (
       <div className="App">
-        <Pomodoro time={this.state.seconds} />
-        <button onClick={this.startTimer}>{this.state.status1}</button>
-        <button onClick={this.pauseTimer} disabled={this.state.status1==='Start'}>
-               {this.state.status2}
-        </button>
+        <Pomodoro time={seconds} startTimer={this.startTimer} pauseTimer={this.pauseTimer} status1={status1} status2={status2} />
         <ToDo />
       </div>
     );
