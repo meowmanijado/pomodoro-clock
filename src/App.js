@@ -17,6 +17,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.addTodo = this.addTodo.bind(this);
+    this.updateTodo = this.updateTodo.bind(this);
 
     this.state = {pomodoro, todos: {}};
 
@@ -91,6 +92,12 @@ class App extends Component {
     this.setState({todos});
   }
 
+  updateTodo(key, updatedTodo) {
+    const todos = {...this.state.todos};
+    todos[key] = updatedTodo;
+    this.setState({todos});
+  }
+
   render() {
     const seconds = this.state.pomodoro.seconds;
     const status1 = this.state.pomodoro.status1;
@@ -98,7 +105,10 @@ class App extends Component {
     return (
       <div className="App">
         <Pomodoro time={seconds} startTimer={this.startTimer} pauseTimer={this.pauseTimer} status1={status1} status2={status2} />
-        <ToDo addTodo={this.addTodo} />
+        <ToDo 
+          addTodo={this.addTodo} 
+          todos={this.state.todos} 
+          updateTodo={this.updateTodo} />
         <ul>
           {Object.keys(this.state.todos).map(key => <TodoList key={key} details={this.state.todos[key]} />)}
         </ul>
