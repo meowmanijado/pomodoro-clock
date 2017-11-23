@@ -16,6 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.addTodo = this.addTodo.bind(this);
+    
     this.state = {pomodoro, todos: {}};
 
     this.startTimer = this.startTimer.bind(this);
@@ -96,7 +97,7 @@ class App extends Component {
     return (
       <div className="App">
         <Pomodoro time={seconds} startTimer={this.startTimer} pauseTimer={this.pauseTimer} status1={status1} status2={status2} />
-        <ToDo />
+        <ToDo addTodo={this.addTodo} />
       </div>
     );
   }
