@@ -32,8 +32,10 @@ export class ToDo extends React.Component {
 	renderTodo(key) {
 		const todo = this.props.todos[key];
 		return (
+
 			<div key={key}>
 				<input type="text" name="name" value={todo.name} placeholder="Add ToDo" onChange={(e) => this.handleChange(e, key)} />
+				<button onClick={() => this.props.removeTodo(key)}>Done</button>
 			</div>
 		)
 	}

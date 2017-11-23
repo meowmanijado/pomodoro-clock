@@ -16,14 +16,14 @@ let pomodoro = {
 class App extends Component {
   constructor(props) {
     super(props);
+
     this.addTodo = this.addTodo.bind(this);
     this.updateTodo = this.updateTodo.bind(this);
-
-    this.state = {pomodoro, todos: {}};
-
+    this.removeTodo = this.removeTodo.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.pauseTimer = this.pauseTimer.bind(this);
-    
+
+    this.state = {pomodoro, todos: {}};
   }
 
   timer(seconds) {
@@ -98,6 +98,14 @@ class App extends Component {
     this.setState({todos});
   }
 
+  removeTodo(key) {
+    const todosCopy = {...this.state.todos};
+    const todos = Object.keys(todosCopy);
+    const index = todos.findIndex(todo => todo);
+    console.log(index);
+    //this.setState({todos});
+  }
+
   render() {
     const seconds = this.state.pomodoro.seconds;
     const status1 = this.state.pomodoro.status1;
@@ -108,7 +116,8 @@ class App extends Component {
         <ToDo 
           addTodo={this.addTodo} 
           todos={this.state.todos} 
-          updateTodo={this.updateTodo} />
+          updateTodo={this.updateTodo}
+          removeTodo={this.removeTodo} />
         <ul>
           {Object.keys(this.state.todos).map(key => <TodoList key={key} details={this.state.todos[key]} />)}
         </ul>
