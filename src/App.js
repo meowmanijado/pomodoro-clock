@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Pomodoro from './Pomodoro';
 import ToDo from './ToDo';
+import TodoList from './TodoList';
 
 let pomodoro = {
   seconds: 1500, 
@@ -16,7 +17,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.addTodo = this.addTodo.bind(this);
-    
+
     this.state = {pomodoro, todos: {}};
 
     this.startTimer = this.startTimer.bind(this);
@@ -98,6 +99,9 @@ class App extends Component {
       <div className="App">
         <Pomodoro time={seconds} startTimer={this.startTimer} pauseTimer={this.pauseTimer} status1={status1} status2={status2} />
         <ToDo addTodo={this.addTodo} />
+        <ul>
+          {Object.keys(this.state.todos).map(key => <TodoList key={key} details={this.state.todos[key]} />)}
+        </ul>
       </div>
     );
   }
