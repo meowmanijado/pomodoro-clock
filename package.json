@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/meowmanijado/pomodoro-clock/issues"
   },
-  "homepage": "https://github.com/meowmanijado/pomodoro-clock#readme"
+  "homepage": "https://github.com/meowmanijado/pomodoro-clock#readme",
+  "devDependencies": {
+    "tailwindcss": "^0.2.2"
+  }
 }
