@@ -99,11 +99,9 @@ class App extends Component {
   }
 
   removeTodo(key) {
-    const todosCopy = {...this.state.todos};
-    const todos = Object.keys(todosCopy);
-    const index = todos.findIndex(todo => todo);
-    console.log(index);
-    //this.setState({todos});
+    const todos = {...this.state.todos};
+    delete todos[key];
+    this.setState({todos});
   }
 
   render() {
