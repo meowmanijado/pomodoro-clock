@@ -14,7 +14,7 @@ export class ToDo extends React.Component {
 		}
 		const todo = {
 			name: this.todo.value,
-			timestamp: null
+			timestamp: Date.now()
 		}
 		this.props.addTodo(todo);
 		this.todoForm.reset();
@@ -24,7 +24,8 @@ export class ToDo extends React.Component {
 		const todo = this.props.todos[key];
 		const updatedTodo = {
 			...todo,
-			[e.target.name]: e.target.value
+			[e.target.name]: e.target.value,
+			timestamp: Date.now()
 		}
 		this.props.updateTodo(key, updatedTodo);
 	}
