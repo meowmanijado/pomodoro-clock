@@ -100,7 +100,7 @@ class App extends Component {
 
   removeTodo(key) {
     const todos = {...this.state.todos};
-    delete todos[key];
+    delete todos[key]; // todos[key] = null;
     this.setState({todos});
   }
 
