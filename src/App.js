@@ -82,7 +82,10 @@ class App extends Component {
     })});
 
     if (this.state.pomodoro.status2 === 'Stop' || 'Dne') this.reset();
+  }
 
+  componentWillUpdate(nextProps, nextState) {
+    localStorage.setItem(`todo-${Date.now()}`, JSON.stringify(nextState.details));
   }
 
   addTodo(todo) {
