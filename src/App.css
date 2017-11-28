@@ -56,3 +56,7 @@ h1 {
 .hidden {
   display: none;
 }
+
+button:disabled {
+  opacity: .5;
+}

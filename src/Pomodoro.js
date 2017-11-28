@@ -14,6 +14,7 @@ export class Pomodoro extends React.Component {
 	render() {
 		const button1 = this.props.status1;
 		const button2 = this.props.status2;
+		const isAvailable = this.props.disabled === false;
 
 		return (
 			<div className="w-full text-center pb-8">
@@ -22,7 +23,8 @@ export class Pomodoro extends React.Component {
 					<div className="md:w-2/3">
 						<button className="bg-purple hover:bg-purple-dark text-white font-bold py-2 px-4 rounded-full"
 							onClick={this.props.startTimer}>{button1}</button>
-						<button className="bg-purple text-white font-bold py-2 px-4 rounded-full opacity-50 cursor-not-allowed"
+						<button className="button-2 bg-purple text-white font-bold py-2 px-4 rounded-full"
+								disabled={!isAvailable}
 								onClick={this.props.pauseTimer}>{button2}</button>
 					</div>
 				</div>

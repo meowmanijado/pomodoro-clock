@@ -11,6 +11,7 @@ let pomodoro = {
   timestamp: null, 
   status1: 'Start', 
   status2: 'Stop',
+  disabled: true
 }
 
 class App extends Component {
@@ -37,6 +38,7 @@ class App extends Component {
       pomodoro: Object.assign({}, this.state.pomodoro, {
         status1: 'Pause',
         status2: 'Stop',
+        disabled: false,
         countdown: setInterval(() => {
             const secondsLeft = this.setState({pomodoro: Object.assign({}, this.state.pomodoro, {
               seconds: Math.round((then - Date.now()) / 1000),
@@ -118,11 +120,12 @@ class App extends Component {
     const seconds = this.state.pomodoro.seconds;
     const status1 = this.state.pomodoro.status1;
     const status2 = this.state.pomodoro.status2;
+    const disabled = this.state.pomodoro.disabled;
     return (
       <div className="grid mx-auto md pt-8">
         <h2 className="mb-4 text-center">Pomodoro Timer</h2>
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <Pomodoro time={seconds} startTimer={this.startTimer} pauseTimer={this.pauseTimer} status1={status1} status2={status2} />
+        <Pomodoro time={seconds} startTimer={this.startTimer} pauseTimer={this.pauseTimer} status1={status1} status2={status2} disabled={disabled} />
         <ToDo 
           addTodo={this.addTodo} 
           todos={this.state.todos} 
