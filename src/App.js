@@ -40,14 +40,18 @@ class App extends Component {
         status2: 'Stop',
         disabled: false,
         countdown: setInterval(() => {
-            const secondsLeft = this.setState({pomodoro: Object.assign({}, this.state.pomodoro, {
-              seconds: Math.round((then - Date.now()) / 1000),
+                this.setState({
+                pomodoro: Object.assign({}, 
+                this.state.pomodoro, {
+                seconds: Math.round((then - Date.now()) / 1000),
             })});
 
-            if (secondsLeft < 0) {
-              clearInterval(this.state.pomodoro.countdown);
-              return;
-            }
+            //console.log(secondsLeft);
+
+            // if (secondsLeft < 0) {
+            //   clearInterval(this.state.pomodoro.countdown);
+            //   return;
+            // }
 
         },1000)
       })
@@ -57,11 +61,10 @@ class App extends Component {
   startTimer() {
 
     const pomodoro = {...this.state.pomodoro}
-
-    
-
     if(pomodoro.status1 === 'Pause') {
+
       clearTimeout(this.state.pomodoro.countdown);
+
       this.setState({pomodoro: Object.assign({}, this.state.pomodoro, {
         pause: true,
         status1: 'Resume',
@@ -84,7 +87,7 @@ class App extends Component {
       pause: true, status2: 'Done', timestamp: Date.now()
     })});
 
-    if (this.state.pomodoro.status2 === 'Stop' || 'Dne') this.reset();
+    if (this.state.pomodoro.status2 === 'Stop' || 'Done') this.reset();
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -131,7 +134,7 @@ class App extends Component {
           todos={this.state.todos} 
           updateTodo={this.updateTodo}
           removeTodo={this.removeTodo} />
-        <ul className="list-reset">
+        <ul className="list-reset hidden">
           {Object.keys(this.state.todos).map(key => <TodoList key={key} details={this.state.todos[key]} editing={this.editTodo} />)}
         </ul>
         </div>

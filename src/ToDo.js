@@ -36,7 +36,7 @@ export class ToDo extends React.Component {
 		const todo = this.props.todos[key];
 		return (
 
-			<div className="flex" 
+			<div className="flex mb-2" 
 				 key={key}>
 				 <div className="flex-1">
 					<input type="text" 
