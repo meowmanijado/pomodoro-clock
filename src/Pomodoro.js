@@ -16,10 +16,17 @@ export class Pomodoro extends React.Component {
 		const button2 = this.props.status2;
 
 		return (
-			<div className="display">
-				<h1>{this.displayTime()}</h1>
-				<button onClick={this.props.startTimer}>{button1}</button>
-				<button onClick={this.props.pauseTimer}>{button2}</button>
+			<div className="w-full text-center pb-8">
+				<h2>{this.displayTime()}</h2>
+				<div className="md:flex md:items-center">
+					<div className="md:w-2/3">
+						<button className="bg-purple hover:bg-purple-dark text-white font-bold py-2 px-4 rounded-full"
+							onClick={this.props.startTimer}>{button1}</button>
+						<button className="bg-purple text-white font-bold py-2 px-4 rounded-full opacity-50 cursor-not-allowed"
+								onClick={this.props.pauseTimer}>{button2}</button>
+					</div>
+				</div>
+				
  			</div>
 		);
 	};

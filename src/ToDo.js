@@ -14,7 +14,8 @@ export class ToDo extends React.Component {
 		}
 		const todo = {
 			name: this.todo.value,
-			timestamp: Date.now()
+			timestamp: Date.now(),
+			editing: false
 		}
 		this.props.addTodo(todo);
 		this.todoForm.reset();
@@ -27,6 +28,7 @@ export class ToDo extends React.Component {
 			[e.target.name]: e.target.value,
 			timestamp: Date.now()
 		}
+		console.log(updatedTodo);
 		this.props.updateTodo(key, updatedTodo);
 	}
 
@@ -34,9 +36,20 @@ export class ToDo extends React.Component {
 		const todo = this.props.todos[key];
 		return (
 
-			<div key={key}>
-				<input type="text" name="name" value={todo.name} placeholder="Add ToDo" onChange={(e) => this.handleChange(e, key)} />
-				<button onClick={() => this.props.removeTodo(key)}>Done</button>
+			<div className="flex" 
+				 key={key}>
+				 <div className="flex-1">
+					<input type="text" 
+							name="name" 
+							className="shadow appearance-none border rounded py-2 px-3 text-grey-darker" 
+							value={todo.name} 
+							placeholder="Add ToDo" 
+							onChange={(e) => this.handleChange(e, key)} />
+				</div>
+				<div className="flex-1">
+				<button onClick={() => this.props.removeTodo(key)}
+						className="bg-purple hover:bg-purple-dark text-white font-bold py-2 px-4 rounded-full">Done</button>
+				</div>
 			</div>
 		)
 	}
@@ -44,10 +57,14 @@ export class ToDo extends React.Component {
 	render() {
 		return (
 			<div>
-				<h2>Add Todo</h2>
-				
-				<form ref={(input) => this.todoForm = input} onSubmit={(e) => this.createTodo(e)}>
-					<input type="text" placeholder="Add ToDo" ref={(input) => {this.todo = input}} />
+				<form ref={(input) => this.todoForm = input} 
+						onSubmit={(e) => this.createTodo(e)}>
+					<div className="mb-4">
+				   		<input className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" 
+				   				type="text" placeholder="Add ToDo" 
+				   				ref={(input) => {this.todo = input}} />
+				    </div>
+					
 				</form>
 
 				{Object.keys(this.props.todos).map(this.renderTodo)}

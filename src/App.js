@@ -10,7 +10,7 @@ let pomodoro = {
   pause: false, 
   timestamp: null, 
   status1: 'Start', 
-  status2: 'Stop'
+  status2: 'Stop',
 }
 
 class App extends Component {
@@ -22,6 +22,7 @@ class App extends Component {
     this.removeTodo = this.removeTodo.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.pauseTimer = this.pauseTimer.bind(this);
+    this.editTodo = this.editTodo.bind(this);
 
     this.state = {pomodoro, todos: {}};
   }
@@ -101,6 +102,12 @@ class App extends Component {
     this.setState({todos});
   }
 
+  editTodo(key, enableEdit) {
+    const todos = {...this.state.todos};
+    todos[key] = enableEdit;
+    this.setState({todos});
+  }
+
   removeTodo(key) {
     const todos = {...this.state.todos};
     delete todos[key]; // todos[key] = null;
@@ -112,16 +119,19 @@ class App extends Component {
     const status1 = this.state.pomodoro.status1;
     const status2 = this.state.pomodoro.status2;
     return (
-      <div className="App">
+      <div className="grid mx-auto md pt-8">
+        <h2 className="mb-4 text-center">Pomodoro Timer</h2>
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <Pomodoro time={seconds} startTimer={this.startTimer} pauseTimer={this.pauseTimer} status1={status1} status2={status2} />
         <ToDo 
           addTodo={this.addTodo} 
           todos={this.state.todos} 
           updateTodo={this.updateTodo}
           removeTodo={this.removeTodo} />
-        <ul>
-          {Object.keys(this.state.todos).map(key => <TodoList key={key} details={this.state.todos[key]} />)}
+        <ul className="list-reset">
+          {Object.keys(this.state.todos).map(key => <TodoList key={key} details={this.state.todos[key]} editing={this.editTodo} />)}
         </ul>
+        </div>
       </div>
     );
   }
