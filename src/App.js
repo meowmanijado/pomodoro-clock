@@ -24,6 +24,7 @@ class App extends Component {
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
     this.editTodo = this.editTodo.bind(this);
+    this.finishTodo = this.finishTodo.bind(this);
 
     this.state = {pomodoro, todos: {}};
   }
@@ -120,6 +121,13 @@ class App extends Component {
     this.setState({todos});
   }
 
+  finishTodo(key) {
+    const todos = {...this.state.todos};
+    todos[key].isCompleted  = true;
+    todos[key].timestamp = Date.now();
+    this.setState({todos});
+  }
+
   removeTodo(key) {
     const todos = {...this.state.todos};
     delete todos[key];
@@ -135,12 +143,19 @@ class App extends Component {
       <div className="grid mx-auto md pt-8">
         <h2 className="mb-4 text-center">Pomodoro Timer</h2>
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <Pomodoro time={seconds} startTimer={this.startTimer} stopTimer={this.stopTimer} status1={status1} status2={status2} disabled={disabled} />
+        <Pomodoro 
+          time={seconds} 
+          startTimer={this.startTimer} 
+          stopTimer={this.stopTimer} 
+          status1={status1} 
+          status2={status2} 
+          disabled={disabled} />
         <ToDo 
           addTodo={this.addTodo} 
           todos={this.state.todos} 
           updateTodo={this.updateTodo}
-          removeTodo={this.removeTodo} />
+          removeTodo={this.removeTodo}
+          finishTodo={this.finishTodo} />
         <ul className="list-reset hidden">
           {Object.keys(this.state.todos).map(key => <TodoList key={key} details={this.state.todos[key]} editing={this.editTodo} />)}
         </ul>
