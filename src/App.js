@@ -5,7 +5,7 @@ import ToDo from './ToDo';
 import TodoList from './TodoList';
 
 let pomodoro = {
-  seconds: 5, 
+  seconds: 1500, 
   countdown: 0, 
   pause: false, 
   timestamp: null, 
@@ -22,6 +22,7 @@ class App extends Component {
     this.updateTodo = this.updateTodo.bind(this);
     this.removeTodo = this.removeTodo.bind(this);
     this.startTimer = this.startTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
     this.editTodo = this.editTodo.bind(this);
 
     this.state = {pomodoro, todos: {}};
@@ -60,6 +61,8 @@ class App extends Component {
 
     const pomodoro = {...this.state.pomodoro}
 
+    
+
     if(pomodoro.status1 === 'Pause') {
 
       clearInterval(this.state.pomodoro.countdown);
@@ -72,24 +75,21 @@ class App extends Component {
     } else if (pomodoro.status1 === 'Resume') {
       this.timer(this.state.pomodoro.seconds);
     } else {
-      this.timer(5);
+      this.timer(1500);
     }
     
+  }
+
+  stopTimer() {
+    if (this.state.pomodoro.status2 === 'Stop' || 'Done') {
+      this.reset();
+      clearInterval(this.state.pomodoro.countdown);
+    }
   }
 
   reset() {
     this.setState({pomodoro});
   }
-
-  // pauseTimer() {
-  //   clearTimeout(this.state.pomodoro.countdown);
-
-  //   this.setState({pomodoro: Object.assign({}, this.state.pomodoro, {
-  //     pause: true, status2: 'Done', timestamp: Date.now()
-  //   })});
-
-  //   if (this.state.pomodoro.status2 === 'Stop' || 'Done') this.reset();
-  // }
 
   componentWillUpdate(nextProps, nextState) {
     localStorage.setItem(`todo-${Date.now()}`, JSON.stringify(nextState.details));
@@ -129,7 +129,7 @@ class App extends Component {
       <div className="grid mx-auto md pt-8">
         <h2 className="mb-4 text-center">Pomodoro Timer</h2>
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <Pomodoro time={seconds} startTimer={this.startTimer} status1={status1} status2={status2} disabled={disabled} />
+        <Pomodoro time={seconds} startTimer={this.startTimer} stopTimer={this.stopTimer} status1={status1} status2={status2} disabled={disabled} />
         <ToDo 
           addTodo={this.addTodo} 
           todos={this.state.todos} 

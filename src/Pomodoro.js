@@ -24,7 +24,7 @@ export class Pomodoro extends React.Component {
 							onClick={this.props.startTimer}>{button1}</button>
 						<button className="button-2 bg-purple text-white font-bold py-2 px-4 rounded-full"
 								disabled={!isAvailable}
-								onClick={this.props.pauseTimer}>{button2}</button>
+								onClick={this.props.stopTimer}>{button2}</button>
 				</div>
 				
  			</div>
