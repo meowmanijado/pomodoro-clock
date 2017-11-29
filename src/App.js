@@ -5,7 +5,7 @@ import ToDo from './ToDo';
 import TodoList from './TodoList';
 
 let pomodoro = {
-  seconds: 1500, 
+  seconds: 5, 
   countdown: 0, 
   pause: false, 
   timestamp: null, 
@@ -22,7 +22,6 @@ class App extends Component {
     this.updateTodo = this.updateTodo.bind(this);
     this.removeTodo = this.removeTodo.bind(this);
     this.startTimer = this.startTimer.bind(this);
-    this.pauseTimer = this.pauseTimer.bind(this);
     this.editTodo = this.editTodo.bind(this);
 
     this.state = {pomodoro, todos: {}};
@@ -46,12 +45,11 @@ class App extends Component {
                 seconds: Math.round((then - Date.now()) / 1000),
             })});
 
-            //console.log(secondsLeft);
-
-            // if (secondsLeft < 0) {
-            //   clearInterval(this.state.pomodoro.countdown);
-            //   return;
-            // }
+            if (this.state.pomodoro.seconds <= 0) {
+              clearInterval(this.state.pomodoro.countdown);
+              this.reset();
+              return;
+            }
 
         },1000)
       })
@@ -61,17 +59,20 @@ class App extends Component {
   startTimer() {
 
     const pomodoro = {...this.state.pomodoro}
+
     if(pomodoro.status1 === 'Pause') {
 
-      clearTimeout(this.state.pomodoro.countdown);
+      clearInterval(this.state.pomodoro.countdown);
 
       this.setState({pomodoro: Object.assign({}, this.state.pomodoro, {
         pause: true,
         status1: 'Resume',
         status2: 'Done'
       })});
+    } else if (pomodoro.status1 === 'Resume') {
+      this.timer(this.state.pomodoro.seconds);
     } else {
-      this.timer(1500);
+      this.timer(5);
     }
     
   }
@@ -80,15 +81,15 @@ class App extends Component {
     this.setState({pomodoro});
   }
 
-  pauseTimer() {
-    clearTimeout(this.state.pomodoro.countdown);
+  // pauseTimer() {
+  //   clearTimeout(this.state.pomodoro.countdown);
 
-    this.setState({pomodoro: Object.assign({}, this.state.pomodoro, {
-      pause: true, status2: 'Done', timestamp: Date.now()
-    })});
+  //   this.setState({pomodoro: Object.assign({}, this.state.pomodoro, {
+  //     pause: true, status2: 'Done', timestamp: Date.now()
+  //   })});
 
-    if (this.state.pomodoro.status2 === 'Stop' || 'Done') this.reset();
-  }
+  //   if (this.state.pomodoro.status2 === 'Stop' || 'Done') this.reset();
+  // }
 
   componentWillUpdate(nextProps, nextState) {
     localStorage.setItem(`todo-${Date.now()}`, JSON.stringify(nextState.details));
@@ -128,7 +129,7 @@ class App extends Component {
       <div className="grid mx-auto md pt-8">
         <h2 className="mb-4 text-center">Pomodoro Timer</h2>
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <Pomodoro time={seconds} startTimer={this.startTimer} pauseTimer={this.pauseTimer} status1={status1} status2={status2} disabled={disabled} />
+        <Pomodoro time={seconds} startTimer={this.startTimer} status1={status1} status2={status2} disabled={disabled} />
         <ToDo 
           addTodo={this.addTodo} 
           todos={this.state.todos} 
