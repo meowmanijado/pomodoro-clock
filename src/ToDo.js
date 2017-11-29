@@ -12,6 +12,7 @@ export class ToDo extends React.Component {
 		if (!this.todo.value.length) {
 			return;
 		}
+
 		const todo = {
 			name: this.todo.value,
 			timestamp: Date.now(),
@@ -35,7 +36,7 @@ export class ToDo extends React.Component {
 
 	renderTodo(key) {
 		const todo = this.props.todos[key];
-		if (this.props.todos[key].isCompleted) {
+		if (!this.props.todos[key].isCompleted) {
 			return (
 				<div className="flex mb-2" 
 					 key={key}>
@@ -59,7 +60,7 @@ export class ToDo extends React.Component {
 			)
 		} else {
 			return (
-				<div className="flex mb-2 opacity-50" 
+				<div className="flex mb-2 items-center opacity-50" 
 					 key={key}>
 
 					 <div className="flex-1">
@@ -74,6 +75,7 @@ export class ToDo extends React.Component {
 						<button onClick={() => this.props.removeTodo(key)}
 							className="bg-purple hover:bg-purple-dark text-white font-bold py-2 px-4">Delete</button>
 					</div>
+					<div className="flex-1">{todo.timestamp}</div>
 				</div>
 			)
 		}

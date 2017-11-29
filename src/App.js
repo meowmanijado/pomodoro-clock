@@ -79,9 +79,11 @@ class App extends Component {
   }
 
   stopTimer() {
-    if (this.state.pomodoro.status2 === 'Stop' || 'Done') {
+    if (this.state.pomodoro.status2 === 'Stop') {
       this.reset();
       clearInterval(this.state.pomodoro.countdown);
+    } else {
+      this.timer(300);
     }
   }
 
@@ -123,8 +125,10 @@ class App extends Component {
 
   finishTodo(key) {
     const todos = {...this.state.todos};
+    const now = new Date();
+
     todos[key].isCompleted  = true;
-    todos[key].timestamp = Date.now();
+    todos[key].timestamp = `${now.getHours()}:${now.getMinutes()}`;
     this.setState({todos});
   }
 
