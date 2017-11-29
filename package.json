@@ -2,7 +2,7 @@
   "name": "pomodoro",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "https://meowmanijado.github.io/pomodoro-clock",
+  "homepage": "https://github.com/meowmanijado/pomodoro-clock",
   "dependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -12,7 +12,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy" : "npm run build&&gh-pages -d build"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "main": "index.js",
@@ -25,8 +26,8 @@
   "bugs": {
     "url": "https://github.com/meowmanijado/pomodoro-clock/issues"
   },
-  "homepage": "https://github.com/meowmanijado/pomodoro-clock#readme",
   "devDependencies": {
+    "gh-pages": "^1.1.0",
     "tailwindcss": "^0.2.2"
   }
 }
