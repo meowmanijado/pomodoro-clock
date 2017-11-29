@@ -28,7 +28,7 @@ export class ToDo extends React.Component {
 			[e.target.name]: e.target.value,
 			timestamp: Date.now()
 		}
-		console.log(updatedTodo);
+		
 		this.props.updateTodo(key, updatedTodo);
 	}
 
@@ -47,8 +47,8 @@ export class ToDo extends React.Component {
 							onChange={(e) => this.handleChange(e, key)} />
 				</div>
 				<div className="flex-1">
-				<button onClick={() => this.props.removeTodo(key)}
-						className="bg-purple hover:bg-purple-dark text-white font-bold py-2 px-4 rounded-full">Done</button>
+					<button onClick={() => this.props.removeTodo(key)}
+						className="bg-purple hover:bg-purple-dark text-white font-bold py-2 px-4 rounded-full">Delete</button>
 				</div>
 			</div>
 		)

@@ -60,9 +60,6 @@ class App extends Component {
   startTimer() {
 
     const pomodoro = {...this.state.pomodoro}
-
-    
-
     if(pomodoro.status1 === 'Pause') {
 
       clearInterval(this.state.pomodoro.countdown);
@@ -91,8 +88,17 @@ class App extends Component {
     this.setState({pomodoro});
   }
 
+  componentWillMount() {
+    const localStorageRef = localStorage.getItem(`todo`);
+    if (localStorageRef) {
+      this.setState({
+        todos: JSON.parse(localStorageRef)
+      })
+    }
+  }
+
   componentWillUpdate(nextProps, nextState) {
-    localStorage.setItem(`todo-${Date.now()}`, JSON.stringify(nextState.details));
+    localStorage.setItem(`todo`, JSON.stringify(nextState.todos));
   }
 
   addTodo(todo) {
@@ -116,7 +122,7 @@ class App extends Component {
 
   removeTodo(key) {
     const todos = {...this.state.todos};
-    delete todos[key]; // todos[key] = null;
+    delete todos[key];
     this.setState({todos});
   }
 
